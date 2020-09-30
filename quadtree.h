@@ -12,17 +12,18 @@ class QuadTree: public Reference
 private:
 	QuadTreeNode* root;
 
-	// functions
-
 protected:
 	static void _bind_methods();
 
 public:
-	void insert_rect(const Rect2i& bounds, const int value);
-	int state_at_point(const Vector2i& point) const;
+	void insert_rect(const Rect2& bounds, const int value);
+	int state_at_point(const Vector2& point);
+	QuadTreeNode* get_root();
+	void set_root(Object* root);
 
-	static QuadTree* create_tree(const Rect2i& bounds);
+	void init_tree(const Rect2& bounds);
 	QuadTree();
+	~QuadTree();
 };
 
 #endif	// QUADTREE_H
