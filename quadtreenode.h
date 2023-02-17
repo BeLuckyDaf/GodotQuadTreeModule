@@ -1,12 +1,12 @@
 #ifndef QUADTREENODE_H
 #define QUADTREENODE_H
-#include "core/reference.h"
+#include "core/object/ref_counted.h"
 #include "core/math/rect2.h"
 #include "core/math/vector2.h"
 
-class QuadTreeNode: public Reference
+class QuadTreeNode: public RefCounted
 {
-	GDCLASS(QuadTreeNode, Reference);
+	GDCLASS(QuadTreeNode, RefCounted);
 
 private:
 
@@ -18,15 +18,15 @@ public:
 	int state;
 
 	QuadTreeNode* parent;
-	QuadTreeNode* child_nw;
-	QuadTreeNode* child_ne;
-	QuadTreeNode* child_sw;
-	QuadTreeNode* child_se;
+	Ref<QuadTreeNode> child_nw;
+	Ref<QuadTreeNode> child_ne;
+	Ref<QuadTreeNode> child_sw;
+	Ref<QuadTreeNode> child_se;
 
-	QuadTreeNode* get_nw();
-	QuadTreeNode* get_ne();
-	QuadTreeNode* get_sw();
-	QuadTreeNode* get_se();
+	Ref<QuadTreeNode> get_nw();
+	Ref<QuadTreeNode> get_ne();
+	Ref<QuadTreeNode> get_sw();
+	Ref<QuadTreeNode> get_se();
 
 	void split();
 	void close(const int state);

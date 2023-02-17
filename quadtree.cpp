@@ -1,19 +1,15 @@
 #include "quadtree.h"
 #include "core/os/memory.h"
+#include "core/object/class_db.h"
+#include "modules/quadtree/quadtreenode.h"
 
-QuadTree::QuadTree() 
-{
-	root = NULL;
-}
+QuadTree::QuadTree() {}
 
-QuadTree::~QuadTree() 
-{
-	if (root) memdelete(root);
-}
+QuadTree::~QuadTree() {}
 
 void QuadTree::init_tree(const Rect2& bounds)
 {
-	root = memnew(QuadTreeNode);
+	root.instantiate();
 	root->init_node(bounds, 0);
 }
 
@@ -27,15 +23,14 @@ int QuadTree::state_at_point(const Vector2& point)
 	return root->state_at_point(point);
 }
 
-QuadTreeNode* QuadTree::get_root()
+Ref<QuadTreeNode> QuadTree::get_root()
 {
 	return root;
 }
 
-void QuadTree::set_root(Object* root)
+void QuadTree::set_root(Ref<QuadTreeNode> root)
 {
-	if (this->root && this->root != root) memdelete(this->root);
-	this->root = static_cast<QuadTreeNode*>(root);
+	this->root = root;
 }
 
 void QuadTree::_bind_methods()

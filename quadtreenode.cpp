@@ -1,5 +1,8 @@
 #include "quadtreenode.h"
 #include "core/os/memory.h"
+#include "core/object/class_db.h"
+#include "core/string/print_string.h"
+#include "editor/editor_log.h"
 
 void QuadTreeNode::init_node(const Rect2& bounds, const int state)
 {
@@ -10,27 +13,24 @@ void QuadTreeNode::init_node(const Rect2& bounds, const int state)
 QuadTreeNode::QuadTreeNode() 
 {
 	state = 0;
-	child_nw = NULL;
-	child_ne = NULL;
-	child_sw = NULL;
-	child_se = NULL;
-	parent = NULL;
 }
 
-QuadTreeNode::~QuadTreeNode()
-{
-	if (child_nw) memdelete(child_nw);
-	if (child_ne) memdelete(child_ne);
-	if (child_sw) memdelete(child_sw);
-	if (child_se) memdelete(child_se);
-}
+QuadTreeNode::~QuadTreeNode() {}
 
 void QuadTreeNode::split()
 {
-	child_nw = memnew(QuadTreeNode);
-	child_ne = memnew(QuadTreeNode);
-	child_sw = memnew(QuadTreeNode);
-	child_se = memnew(QuadTreeNode);
+	if (!child_nw.is_valid()) {
+		child_nw.instantiate();
+	}
+	if (!child_ne.is_valid()) {
+		child_ne.instantiate();
+	}
+	if (!child_sw.is_valid()) {
+		child_sw.instantiate();
+	}
+	if (!child_se.is_valid()) {
+		child_se.instantiate();
+	}
 
 	child_nw->parent = this;
 	child_ne->parent = this;
@@ -67,14 +67,6 @@ void QuadTreeNode::split()
 void QuadTreeNode::close(const int state)
 {
 	this->state = state;
-	if (child_nw) memdelete(child_nw);
-	if (child_ne) memdelete(child_ne);
-	if (child_sw) memdelete(child_sw);
-	if (child_se) memdelete(child_se);
-	child_nw = NULL;
-	child_ne = NULL;
-	child_sw = NULL;
-	child_se = NULL;
 }
 
 void QuadTreeNode::insert_rect(const Rect2& target, const int value)
@@ -146,22 +138,22 @@ void QuadTreeNode::set_bounds(const Rect2& bounds)
 	this->bounds = bounds; 
 }
 
-QuadTreeNode* QuadTreeNode::get_nw()
+Ref<QuadTreeNode> QuadTreeNode::get_nw()
 {
 	return child_nw;
 }
 
-QuadTreeNode* QuadTreeNode::get_ne()
+Ref<QuadTreeNode> QuadTreeNode::get_ne()
 {
 	return child_ne;
 }
 
-QuadTreeNode* QuadTreeNode::get_sw()
+Ref<QuadTreeNode> QuadTreeNode::get_sw()
 {
 	return child_sw;
 }
 
-QuadTreeNode* QuadTreeNode::get_se()
+Ref<QuadTreeNode> QuadTreeNode::get_se()
 {
 	return child_se;
 }
