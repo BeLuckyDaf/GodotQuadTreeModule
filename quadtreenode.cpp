@@ -67,6 +67,22 @@ void QuadTreeNode::split()
 void QuadTreeNode::close(const int state)
 {
 	this->state = state;
+	if (child_ne.is_valid()) {
+		child_ne->close(state);
+		child_ne.unref();
+	}
+	if (child_nw.is_valid()) {
+		child_nw->close(state);
+		child_nw.unref();
+	}
+	if (child_se.is_valid()) {
+		child_se->close(state);
+		child_se.unref();
+	}
+	if (child_sw.is_valid()) {
+		child_sw->close(state);
+		child_sw.unref();
+	}
 }
 
 void QuadTreeNode::insert_rect(const Rect2& target, const int value)
